@@ -46,7 +46,6 @@ class CustomUser(AbstractBaseUser):
     is_admin = models.BooleanField(default=False)
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ("first_name", "last_name", "club", "region")
     objects = MyUserManager()
 
     def has_perm(self, perm, obj=None):

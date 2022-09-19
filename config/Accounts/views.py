@@ -9,31 +9,27 @@ class CustomSignupForm(UserCreationForm):
     class Meta:
         model = CustomUser
         fields = ("first_name", "last_name", "email", "club", "region")
+        labels = {
+            "first_name": "Prénom",
+            "last_name": "Nom",
+            "email": "Email",
+            "club": "Club",
+            "region": "Région"
+        }
 
 
 def signup(request):
+    context = {}
+
     if request.method == "POST":
-        first_name = request.POST.get("first_name")
-        last_name = request.POST.get("last_name")
-        email = request.POST.get("email")
-        club = request.POST.get("club")
-        region = request.POST.get("region")
-        password1 = request.POST.get("password1")
-        password2 = request.POST.get("password2")
-
-        if password1 != password2:
-            return render(request, "Accounts/signup.html",
-                          context={"error": "Les mots de passes ne sont pas identiques."})
-
-        # TODO
         form = CustomSignupForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponse("Bienvenue !")
+            return HttpResponse("Bienvenue")
         else:
-            contex['errors'] = form.errors
+            context["errors"] = form.errors
 
     form = CustomSignupForm()
-    contex["form"] = form
+    context["form"] = form
 
-    return render(request, "Accounts/signup.html", context=contex)
+    return render(request, "Accounts/signup.html", context=context)
