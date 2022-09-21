@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+<!-- Page Header-->
+<header class="masthead" style="background-image: url({% static 'Website/assets/img/post-bg.jpg'%})">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="post-heading">
+                    <h1>
+    {{ target_announce.author_club }} - {{ target_announce.author_category }}{{ target_announce.author_practice_level }}
+                    </h1>
+                    <h2 class="subheading">Date : {{ target_announce.date }}</h2>
+                    <h2 class="subheading">Lieu : {{ target_announce.location }}</h2>
+                    <h2 class="subheading">Coup d'envoi : {{ target_announce.hour }}</h2>
+                    <h2 class="subheading">Catégorie & Niveau Souhaité : {{ target_announce.desired_level }}</h2>
+                    <span class="meta">
+                                Posté par
+                                <a href="#!">{{ target_announce.author }}</a>
+                                le {{ target_announce.published_date }}
+                            </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock header %}
+
+{% block content %}
+<!-- Main Content-->
+<article class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                {% with comments.count as total_comments %}
+                <h2>{{ total_comments }} commentaire{{ total_comments|pluralize }}</h2>
+                {% endwith %}
+
+                {% for comment in comments %}
+                <div class="bg-light">
+                    <p>
+                        Commentaire {{ forloop.counter }} par {{ comment.author }} le {{ comment.published_date }}
+                        {% if request.user.email == comment.email %}
+                        <a href="{% url 'Website-delete_comment' comment.id %}">✘</a>
+                        {% endif %}
+                    </p>
+                    {{ comment.body|linebreaks }}
+                </div>
+                {% empty %}
+                <p>Il n'y a pas encore de commentaires.</p>
+                {% endfor %}
+
+                <h2>Ajouter un nouveau commentaire</h2>
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <table>
+                        {{ comment_form.as_table }}
+                        <tr>
+                            <td></td>
+                            <td><input type="submit" value="Ajouter commentaire"></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</article>
+{% endblock content %}
