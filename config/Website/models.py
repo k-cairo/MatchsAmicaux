@@ -12,6 +12,7 @@ class Announce(models.Model):
     author_club = models.CharField(max_length=50)
     author_category = models.CharField(max_length=10)
     author_practice_level = models.CharField(max_length=15)
+    author_region = models.CharField(max_length=50)
     hour = models.CharField(max_length=5)
     date = models.DateField()
     location = models.CharField(choices=LOCATION_CHOICES, max_length=100)

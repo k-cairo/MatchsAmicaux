@@ -39,16 +39,18 @@
                     <h2 class="post-title">
                         {{ announce.author_club }} - {{ announce.author_category }}{{ announce.author_practice_level }}
                     </h2>
+                    <h2>Région : {{ announce.author_region }}</h2>
                     <h3 class="post-subtitle">Date : {{ announce.date }}</h3>
-                    <h3 class="post-subtitle">Lieu : {{ announce.location }} </h3>
-                    <h3 class="post-subtitle">Coup d'envoi : {{ announce.hour }} </h3>
-                    <h3 class="post-subtitle">Catégorie & Niveau Souhaité : {{ announce.desired_level }} </h3>
+                    <h3 class="post-subtitle">Lieu : {{ announce.location }}</h3>
+                    <h3 class="post-subtitle">Coup d'envoi : {{ announce.hour }}</h3>
+                    <h3 class="post-subtitle">Catégorie & Niveau Souhaité : {{ announce.desired_level }}</h3>
                 </a>
                 <p class="post-meta">
                     Posté par
                     <a href="#!">{{ announce.author }}</a>
                     le {{ announce.published_date }}
                     {% if request.user.is_admin or request.user.last_name and request.user.first_name in announce.author %}
+                    <a href="{% url 'Website-edit_announce' announce.id %}">✏️</a>
                     <a href="{% url 'Website-delete_announce' announce.id %}">✘</a>
                     {% endif %}
                 </p>
