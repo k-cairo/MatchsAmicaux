@@ -1,7 +1,7 @@
 from django.urls import path
 
 from Website.views import index, new_announce, delete_announce, announce_detail, delete_comment, edit_announce, \
-    edit_comment
+    index_filtered_by_regions
 
 urlpatterns = [
     path('', index, name="Website-index"),
@@ -10,5 +10,5 @@ urlpatterns = [
     path('delete/comment/<int:identifier>/', delete_comment, name='Website-delete_comment'),
     path('announce/<int:identifier>/', announce_detail, name='Website-announce'),
     path('edit/announce/<int:identifier>/', edit_announce, name='Website-edit_announce'),
-    # path('edit/comment/<int:identifier/>', edit_comment, name='Website-edit_comment')
+    path('region/<slug:region_slug>/', index_filtered_by_regions, name='Website-index_filtered_by_region')
 ]

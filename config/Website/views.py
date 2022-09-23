@@ -1,7 +1,7 @@
-from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import PostAnnounceForm, CommentForm
 from .models import Announce, Comment
+from utils.constants import REGIONS
 
 
 # INDEX VIEW
@@ -10,15 +10,25 @@ def index(request):
     return render(request, "Website/index.html", context={"announces": announces})
 
 
+def index_filtered_by_regions(request, region_slug):
+    announces = []
+    region = ""
+
+    for key, value in REGIONS.items():
+        if value == region_slug:
+            region = key
+            announces = Announce.objects.filter(author_region=region)
+    return render(request, "Website/index_filtered_by_region.html", context={"announces": announces, "region": region})
+
+
 # ANNOUNCES VIEWS
 def new_announce(request):
     last_name = request.user.last_name
     first_name = request.user.first_name
-    print(f"{last_name} {first_name}")
     if request.method == "POST":
         form = PostAnnounceForm(request.POST)
         if form.is_valid():
-            author = f"{request.user.last_name} {request.user.first_name}"
+            author = f"{last_name.upper()} {first_name.capitalize()}"
             author_club = request.user.club
             author_category = request.user.category
             author_practice_level = request.user.practice_level
@@ -65,7 +75,7 @@ def edit_announce(request, identifier):
             'desired_level': target_announce.desired_level
         })
 
-    return render(request, 'Website/edit-announce.html', context={'form': form, 'target_announce': target_announce})
+    return render(request, 'Website/edit_announce.html', context={'form': form, 'target_announce': target_announce})
 
 
 def announce_detail(request, identifier):
@@ -78,10 +88,12 @@ def announce_detail(request, identifier):
     if request.method == "POST":
         comment_form = CommentForm(data=request.POST)
         if comment_form.is_valid():
+            last_name = request.user.last_name
+            first_name = request.user.first_name
             new_comment = comment_form.save(commit=False)
             new_comment.announce = target_announce
             new_comment.email = request.user.email
-            new_comment.author = f"{request.user.last_name} {request.user.first_name}"
+            new_comment.author = f"{last_name.upper()} {first_name.capitalize()}"
             new_comment.save()
             return redirect('Website-announce', identifier)
     else:

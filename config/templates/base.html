@@ -34,7 +34,28 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ms-auto py-4 py-lg-0">
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'Website-index' %}">Accueil</a></li>
-                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="#">A Propos</a></li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle px-lg-3 py-3 py-lg-4" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Régions</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'Website-index' %}">Toutes les Régions</a></li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li><a class="dropdown-item" href="{% url 'Website-index_filtered_by_region' 'Auvergne-Rhone-Alpes' %}">Auvergne-Rhône-Alpes</a></li>
+                            <li><a class="dropdown-item" href="{% url 'Website-index_filtered_by_region' 'Bourgogne-Franche-Comte' %}">Bourgogne-Franche-Comté</a></li>
+                            <li><a class="dropdown-item" href="{% url 'Website-index_filtered_by_region' 'Bretagne' %}">Bretagne</a></li>
+                            <li><a class="dropdown-item" href="{% url 'Website-index_filtered_by_region' 'Centre-Val-de-Loire' %}">Centre-Val de Loire</a></li>
+                            <li><a class="dropdown-item" href="{% url 'Website-index_filtered_by_region' 'Corse' %}">Corse</a></li>
+                            <li><a class="dropdown-item" href="{% url 'Website-index_filtered_by_region' 'Grand-Est' %}">Grand Est</a></li>
+                            <li><a class="dropdown-item" href="{% url 'Website-index_filtered_by_region' 'Hauts-de-France' %}">Hauts-de-France</a></li>
+                            <li><a class="dropdown-item" href="{% url 'Website-index_filtered_by_region' 'Ile-de-France' %}">Ile-de-France</a></li>
+                            <li><a class="dropdown-item" href="{% url 'Website-index_filtered_by_region' 'Normandie' %}">Normandie</a></li>
+                            <li><a class="dropdown-item" href="{% url 'Website-index_filtered_by_region' 'Nouvelle-Aquitaine' %}">Nouvelle-Aquitaine</a></li>
+                            <li><a class="dropdown-item" href="{% url 'Website-index_filtered_by_region' 'Occitanie' %}">Occitanie</a></li>
+                            <li><a class="dropdown-item" href="{% url 'Website-index_filtered_by_region' 'Pays-de-la-Loire' %}">Pays de la Loire</a></li>
+                            <li><a class="dropdown-item" href="{% url 'Website-index_filtered_by_region' 'Provence-Alpes-Cote-d-Azur' %}">Provence-Alpes-Côte d’Azur</a></li>
+                        </ul>
+                </li>
+
                 {% if request.user.is_authenticated %}
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="#">{{ request.user.last_name }} {{ request.user.first_name }}</a></li>
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'logout' %}">Se Déconnecter</a></li>

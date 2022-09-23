@@ -41,7 +41,7 @@
                 <div class="bg-light">
                     <p>
                         Commentaire {{ forloop.counter }} par {{ comment.author }} le {{ comment.published_date }}
-                        {% if request.user.email == comment.email %}
+                        {% if request.user.is_admin or request.user.email == comment.email %}
                         <a href="{% url 'Website-delete_comment' comment.id %}">✘</a>
                         {% endif %}
                     </p>
@@ -51,6 +51,7 @@
                 <p>Il n'y a pas encore de commentaires.</p>
                 {% endfor %}
 
+                {% if user.is_authenticated %}
                 <h2>Ajouter un nouveau commentaire</h2>
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -62,6 +63,7 @@
                         </tr>
                     </table>
                 </form>
+                {% endif %}
             </div>
         </div>
     </div>
